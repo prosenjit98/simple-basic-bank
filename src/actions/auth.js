@@ -5,6 +5,7 @@ import { history } from '../router/AppRouter';
 import { initiateGetProfile } from './profile';
 import { setAuthHeader, removeAuthHeader } from '../utils/common';
 import { get, post } from '../utils/api';
+import { resetAccount } from './account';
 
 export const signIn = (user) => ({
   type: SIGN_IN,
@@ -53,6 +54,7 @@ export const initiateLogout = () => {
       await post(`${BASE_API_URL}/logout`, true, true);
       removeAuthHeader();
       localStorage.removeItem('user_token');
+      dispatch(resetAccount());
       return dispatch(signOut());
     } catch (error) {
       error.response && dispatch(getErrors(error.response.data));
